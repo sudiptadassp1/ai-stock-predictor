@@ -1,0 +1,1 @@
+/* Free version admin script */
