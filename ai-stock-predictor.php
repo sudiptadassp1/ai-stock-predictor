@@ -21,6 +21,7 @@ class AI_Stock_Predictor_Free {
 	public function __construct() {
 		// Hook early into plugins_loaded to check dependencies
 		add_action( 'plugins_loaded', array( $this, 'check_dependencies' ) );
+		
 	}
 
 	/**
@@ -86,12 +87,12 @@ class AI_Stock_Predictor_Free {
 	}
 
 	public function render_admin_dashboard() {
-		?>
-		<div class="wrap">
-			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-			<p><?php esc_html_e( 'Welcome to the AI Stock Predictor Dashboard.', 'ai-stock-predictor' ); ?></p>
-		</div>
-		<?php
+		$dir_path = plugin_dir_path( __FILE__ );
+
+		if ( file_exists( $dir_path . 'includes/dashboard/class-product-listing.php' ) ) {
+			include $dir_path . 'includes/dashboard/class-product-listing.php';
+			new Product_listing();
+		}
 	}
 }
 
