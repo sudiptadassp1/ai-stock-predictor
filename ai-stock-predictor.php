@@ -51,7 +51,7 @@ class AI_Stock_Predictor_Free {
 	 */
 	public function render_missing_wc_notice() {
 		?>
-		<div class="notice notice-error is-dismissible">
+		<div class="aisp-notice notice-error is-dismissible">
 			<p>
 				<?php 
 				echo wp_kses_post( 

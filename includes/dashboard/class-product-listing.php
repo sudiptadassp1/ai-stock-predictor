@@ -15,7 +15,7 @@ class Product_listing{
 
     public function before_get_woo_product(){
         ?>
-        <div class="wrap">
+        <div class="aisp-wrap">
             <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
             <p><?php esc_html_e( 'Welcome to the AI Stock Predictor Dashboard.', 'ai-stock-predictor' ); ?></p>
         </div>
@@ -29,7 +29,7 @@ class Product_listing{
     public function get_woo_product(){
         // Get the current page number safely
         $current_page = max( 1, get_query_var( 'paged' ), get_query_var( 'page' ) );
-        $posts_per_page = 20;
+        $posts_per_page = 6;
 
         // Set up the WooCommerce product query arguments
         $args = [
@@ -49,16 +49,16 @@ class Product_listing{
         // Output the products loop
         if ( ! empty( $products ) ) {
             
-            echo '<table class="wp-list-table widefat fixed striped products-table">';
+            echo '<table class="aisp-wp-list-table widefat fixed striped products-table">';
             echo '  <thead>';
             echo '    <tr>';
-            echo '      <th scope="col" class="manage-column" style="width:50px;"><strong>' . esc_html__( '#', 'ai-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="manage-column"><strong>' . esc_html__( 'Image', 'ai-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="manage-column"><strong>' . esc_html__( 'Product Name', 'ai-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="manage-column"><strong>' . esc_html__( 'Product SKU', 'ai-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="manage-column"><strong>' . esc_html__( 'Price', 'ai-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="manage-column"><strong>' . esc_html__( 'Stock Status', 'ai-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="manage-column"><strong>' . esc_html__( 'Prediction', 'ai-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="aisp-manage-column" style="width:50px;"><strong>' . esc_html__( '#', 'ai-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Image', 'ai-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Product Name', 'ai-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Product SKU', 'ai-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Price', 'ai-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Stock Status', 'ai-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Prediction', 'ai-stock-predictor' ) . '</strong></th>';
             echo '    </tr>';
             echo '  </thead>';
             echo '  <tbody>';
@@ -73,35 +73,35 @@ class Product_listing{
                 $sku = $product->get_sku() ? $product->get_sku() : '-';
                 ?>
                 <tr>
-                    <td class="product-index-column">
+                    <td class="aisp-product-index-column">
                         <strong><?php echo esc_html( $key+1 ); ?></strong>
                     </td>
-                    <td class="product-image-column">
+                    <td class="aisp-product-image-column">
                         <?php 
                         echo wp_kses_post( $product->get_image( 'thumbnail', [ 'style' => 'max-width: 60px; height: auto; display: block;' ] ) ); 
                         ?>
                     </td>
-                    <td class="product-name-column">
+                    <td class="aisp-product-name-column">
                         <strong><?php echo esc_html( $product->get_name() ); ?></strong>
                     </td>
-                    <td class="product-sku-column">
+                    <td class="aisp-product-sku-column">
                         <?php echo esc_html( $sku ); ?>
                     </td>
-                    <td class="product-price-column">
+                    <td class="aisp-product-price-column">
                         <?php echo wp_kses_post( $product->get_price_html() ); ?>
                     </td>
-                    <td class="product-status-column">
-                        <span class="status-badge <?php echo esc_attr( $status_class ); ?>">
+                    <td class="aisp-product-status-column">
+                        <span class="aisp-status-badge <?php echo esc_attr( $status_class ); ?>">
                             <?php echo esc_html( $status_label ); ?>
                         </span>
-                        <span class="stock-amount">
+                        <span class="aisp-stock-amount">
                             <?php 
                             if ( $is_in_stock && $stock_amount !== null ) {
                                 echo esc_html( sprintf( __( ' (%d available)', 'ai-stock-predictor' ), $stock_amount ) );
                             }
                             ?>
                     </td>
-                    <td class="product-prediction-column">
+                    <td class="aisp-product-prediction-column">
                         ##
                     </td>
                 </tr>
@@ -113,7 +113,7 @@ class Product_listing{
 
             // Output Pagination Links
             if ( $total_pages > 1 ) {
-                echo '<div class="woocommerce-pagination">';
+                echo '<div class="aisp-woocommerce-pagination">';
                 echo paginate_links( [
                     'base'      => str_replace( 999999999, '%#%', esc_url( get_pagenum_link( 999999999 ) ) ),
                     'format'    => '?paged=%#%',
