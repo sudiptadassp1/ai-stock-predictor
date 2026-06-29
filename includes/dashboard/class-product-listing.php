@@ -57,7 +57,7 @@ class Product_listing{
             echo '      <th scope="col" class="manage-column"><strong>' . esc_html__( 'Product Name', 'ai-stock-predictor' ) . '</strong></th>';
             echo '      <th scope="col" class="manage-column"><strong>' . esc_html__( 'Product SKU', 'ai-stock-predictor' ) . '</strong></th>';
             echo '      <th scope="col" class="manage-column"><strong>' . esc_html__( 'Price', 'ai-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="manage-column"><strong>' . esc_html__( 'Current Stock', 'ai-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="manage-column"><strong>' . esc_html__( 'Stock Status', 'ai-stock-predictor' ) . '</strong></th>';
             echo '      <th scope="col" class="manage-column"><strong>' . esc_html__( 'Prediction', 'ai-stock-predictor' ) . '</strong></th>';
             echo '    </tr>';
             echo '  </thead>';
@@ -67,13 +67,14 @@ class Product_listing{
                 $is_in_stock = $product->is_in_stock();
                 $status_label = $is_in_stock ? __( 'In Stock', 'ai-stock-predictor' ) : __( 'Out of Stock', 'ai-stock-predictor' );
                 $status_class = $is_in_stock ? 'instock' : 'outofstock';
+                $stock_amount = $product->get_stock_quantity();
                 
                 // Fallback if SKU is blank
                 $sku = $product->get_sku() ? $product->get_sku() : '-';
                 ?>
                 <tr>
                     <td class="product-index-column">
-                        <strong><?php echo esc_html( $key ); ?></strong>
+                        <strong><?php echo esc_html( $key+1 ); ?></strong>
                     </td>
                     <td class="product-image-column">
                         <?php 
@@ -93,22 +94,15 @@ class Product_listing{
                         <span class="status-badge <?php echo esc_attr( $status_class ); ?>">
                             <?php echo esc_html( $status_label ); ?>
                         </span>
-                        
-                        <?php 
-                        if ( $product->managing_stock() ) {
-                            $stock_qty = $product->get_stock_quantity();
+                        <span class="stock-amount">
+                            <?php 
+                            if ( $is_in_stock && $stock_amount !== null ) {
+                                echo esc_html( sprintf( __( ' (%d available)', 'ai-stock-predictor' ), $stock_amount ) );
+                            }
                             ?>
-                            <div class="stock-count" style="font-size: 11px; color: #666; margin-top: 4px;">
-                                <?php 
-                                printf( esc_html__( '(%s available)', 'ai-stock-predictor' ), esc_html( $stock_qty ) ); 
-                                ?>
-                            </div>
-                            <?php
-                        }
-                        ?>
                     </td>
                     <td class="product-prediction-column">
-                        <?php echo ""; ?>
+                        ##
                     </td>
                 </tr>
                 <?php
