@@ -57,7 +57,8 @@ class Product_listing{
             echo '      <th scope="col" class="manage-column"><strong>' . esc_html__( 'Product Name', 'ai-stock-predictor' ) . '</strong></th>';
             echo '      <th scope="col" class="manage-column"><strong>' . esc_html__( 'Product SKU', 'ai-stock-predictor' ) . '</strong></th>';
             echo '      <th scope="col" class="manage-column"><strong>' . esc_html__( 'Price', 'ai-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="manage-column"><strong>' . esc_html__( 'Status', 'ai-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="manage-column"><strong>' . esc_html__( 'Current Stock', 'ai-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="manage-column"><strong>' . esc_html__( 'Prediction', 'ai-stock-predictor' ) . '</strong></th>';
             echo '    </tr>';
             echo '  </thead>';
             echo '  <tbody>';
@@ -92,6 +93,22 @@ class Product_listing{
                         <span class="status-badge <?php echo esc_attr( $status_class ); ?>">
                             <?php echo esc_html( $status_label ); ?>
                         </span>
+                        
+                        <?php 
+                        if ( $product->managing_stock() ) {
+                            $stock_qty = $product->get_stock_quantity();
+                            ?>
+                            <div class="stock-count" style="font-size: 11px; color: #666; margin-top: 4px;">
+                                <?php 
+                                printf( esc_html__( '(%s available)', 'ai-stock-predictor' ), esc_html( $stock_qty ) ); 
+                                ?>
+                            </div>
+                            <?php
+                        }
+                        ?>
+                    </td>
+                    <td class="product-prediction-column">
+                        <?php echo ""; ?>
                     </td>
                 </tr>
                 <?php
