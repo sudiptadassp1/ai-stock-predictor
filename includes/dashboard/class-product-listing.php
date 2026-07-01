@@ -76,7 +76,7 @@ class Product_listing{
                 $status_class = $is_in_stock ? 'instock' : 'outofstock';
                 $stock_amount = $product->get_stock_quantity();
                 $product_index = ( ( $current_page - 1 ) * $posts_per_page ) + $key + 1;
-                $prediction = "";
+                $prediction = $this->get_stockout_prediction( $product );
                 
                 // Fallback if SKU is blank
                 $sku = $product->get_sku() ? $product->get_sku() : '-';
@@ -148,7 +148,63 @@ class Product_listing{
         }
     }
 
-   
+    private function get_stockout_prediction( $product ) {
+        $stock_quantity = $product->get_stock_quantity();
+
+        if ( null === $stock_quantity ) {
+            return [
+                'stockout_date'    => __( 'Not tracked', 'ai-stock-predictor' ),
+                'risk_level'       => __( 'Unknown', 'ai-stock-predictor' ),
+                'risk_class'       => 'unknown',
+                'reorder_quantity' => '-',
+            ];
+        }
+
+        $total_sold = $this->get_recent_product_sales_quantity( $product );
+        $average_daily_sales = $total_sold / $this->sales_window_days;
+
+        if ( $average_daily_sales <= 0 ) {
+            return [
+                'stockout_date'    => __( 'No recent sales', 'ai-stock-predictor' ),
+                'risk_level'       => __( 'Low', 'ai-stock-predictor' ),
+                'risk_class'       => 'low',
+                'reorder_quantity' => 0,
+            ];
+        }
+
+        $coverage_days = $this->lead_time_days + $this->safety_stock_days;
+        $reorder_quantity = max( 0, (int) ceil( ( $average_daily_sales * $coverage_days ) - $stock_quantity ) );
+
+        if ( $stock_quantity <= 0 ) {
+            return [
+                'stockout_date'    => __( 'Today', 'ai-stock-predictor' ),
+                'risk_level'       => __( 'High', 'ai-stock-predictor' ),
+                'risk_class'       => 'high',
+                'reorder_quantity' => $reorder_quantity,
+            ];
+        }
+
+        $days_until_stockout = $stock_quantity / $average_daily_sales;
+        $stockout_timestamp = current_time( 'timestamp' ) + ( (int) ceil( $days_until_stockout ) * DAY_IN_SECONDS );
+
+        if ( $days_until_stockout <= $this->lead_time_days ) {
+            $risk_level = __( 'High', 'ai-stock-predictor' );
+            $risk_class = 'high';
+        } elseif ( $days_until_stockout <= $coverage_days ) {
+            $risk_level = __( 'Medium', 'ai-stock-predictor' );
+            $risk_class = 'medium';
+        } else {
+            $risk_level = __( 'Low', 'ai-stock-predictor' );
+            $risk_class = 'low';
+        }
+
+        return [
+            'stockout_date'    => wp_date( get_option( 'date_format' ), $stockout_timestamp ),
+            'risk_level'       => $risk_level,
+            'risk_class'       => $risk_class,
+            'reorder_quantity' => $reorder_quantity,
+        ];
+    }
 
     private function get_recent_product_sales_quantity( $product ) {
         $product_id = $product->get_id();
