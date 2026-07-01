@@ -2,3 +2,13 @@
     --primary-color: #2563EB;
     --secondary-color: #1E40AF;
 }
+
+.aisp-woocommerce-pagination ul {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+.aisp-woocommerce-pagination ul li {
+    padding: 0 5px;
+}

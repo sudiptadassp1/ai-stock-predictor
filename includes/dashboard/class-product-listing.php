@@ -24,18 +24,18 @@ class Product_listing{
 
 
     /**
-     * Get woocommerce products with pagination. Fetch 20 products at a time
+     * Get woocommerce products with pagination.
      */
     public function get_woo_product(){
-        // Get the current page number safely
-        $current_page = max( 1, get_query_var( 'paged' ), get_query_var( 'page' ) );
+        $current_page = isset( $_GET['paged'] ) ? absint( wp_unslash( $_GET['paged'] ) ) : 1;
+        $current_page = max( 1, $current_page );
         $posts_per_page = 6;
 
         // Set up the WooCommerce product query arguments
         $args = [
             'limit'    => $posts_per_page,
             'page'     => $current_page,
-            'paginate' => true, // Crucial: This returns an object containing both products and total pages
+            'paginate' => true, 
             'status'   => 'publish',
         ];
 
@@ -68,13 +68,14 @@ class Product_listing{
                 $status_label = $is_in_stock ? __( 'In Stock', 'ai-stock-predictor' ) : __( 'Out of Stock', 'ai-stock-predictor' );
                 $status_class = $is_in_stock ? 'instock' : 'outofstock';
                 $stock_amount = $product->get_stock_quantity();
+                $product_index = ( ( $current_page - 1 ) * $posts_per_page ) + $key + 1;
                 
                 // Fallback if SKU is blank
                 $sku = $product->get_sku() ? $product->get_sku() : '-';
                 ?>
                 <tr>
                     <td class="aisp-product-index-column">
-                        <strong><?php echo esc_html( $key+1 ); ?></strong>
+                        <strong><?php echo esc_html( $product_index ); ?></strong>
                     </td>
                     <td class="aisp-product-image-column">
                         <?php 
@@ -100,6 +101,7 @@ class Product_listing{
                                 echo esc_html( sprintf( __( ' (%d available)', 'ai-stock-predictor' ), $stock_amount ) );
                             }
                             ?>
+                        </span>
                     </td>
                     <td class="aisp-product-prediction-column">
                         ##
@@ -115,8 +117,8 @@ class Product_listing{
             if ( $total_pages > 1 ) {
                 echo '<div class="aisp-woocommerce-pagination">';
                 echo paginate_links( [
-                    'base'      => str_replace( 999999999, '%#%', esc_url( get_pagenum_link( 999999999 ) ) ),
-                    'format'    => '?paged=%#%',
+                    'base'      => admin_url( 'admin.php?page=ai-stock-predictor&paged=%#%' ),
+                    'format'    => '',
                     'current'   => $current_page,
                     'total'     => $total_pages,
                     'prev_text' => '&larr;',
