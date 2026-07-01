@@ -27,3 +27,32 @@
     color: white;
     background-color: var(--primary-color);
 }
+
+.aisp-risk-badge {
+    display: inline-block;
+    min-width: 70px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.aisp-risk-badge.high {
+    color: #991B1B;
+    background-color: #FEE2E2;
+}
+
+.aisp-risk-badge.medium {
+    color: #92400E;
+    background-color: #FEF3C7;
+}
+
+.aisp-risk-badge.low {
+    color: #065F46;
+    background-color: #D1FAE5;
+}
+
+.aisp-risk-badge.unknown {
+    color: #374151;
+    background-color: #E5E7EB;
+}

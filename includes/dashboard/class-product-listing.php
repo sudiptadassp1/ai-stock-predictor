@@ -4,6 +4,11 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 class Product_listing{
+    private $sales_window_days = 30;
+    private $lead_time_days = 14;
+    private $safety_stock_days = 7;
+    private $recent_product_sales_quantities = null;
+
     public function __construct(){
         $this->before_get_woo_product();
         $this->get_woo_product();
@@ -58,7 +63,9 @@ class Product_listing{
             echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Product SKU', 'ai-stock-predictor' ) . '</strong></th>';
             echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Price', 'ai-stock-predictor' ) . '</strong></th>';
             echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Stock Status', 'ai-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Prediction', 'ai-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Estimated Stockout Date', 'ai-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Risk Level', 'ai-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Suggested Reorder Quantity', 'ai-stock-predictor' ) . '</strong></th>';
             echo '    </tr>';
             echo '  </thead>';
             echo '  <tbody>';
@@ -69,6 +76,7 @@ class Product_listing{
                 $status_class = $is_in_stock ? 'instock' : 'outofstock';
                 $stock_amount = $product->get_stock_quantity();
                 $product_index = ( ( $current_page - 1 ) * $posts_per_page ) + $key + 1;
+                $prediction = "";
                 
                 // Fallback if SKU is blank
                 $sku = $product->get_sku() ? $product->get_sku() : '-';
@@ -103,8 +111,16 @@ class Product_listing{
                             ?>
                         </span>
                     </td>
-                    <td class="aisp-product-prediction-column">
-                        ##
+                    <td class="aisp-product-stockout-column">
+                        <?php echo esc_html( $prediction['stockout_date'] ); ?>
+                    </td>
+                    <td class="aisp-product-risk-column">
+                        <span class="aisp-risk-badge <?php echo esc_attr( $prediction['risk_class'] ); ?>">
+                            <?php echo esc_html( $prediction['risk_level'] ); ?>
+                        </span>
+                    </td>
+                    <td class="aisp-product-reorder-column">
+                        <?php echo esc_html( $prediction['reorder_quantity'] ); ?>
                     </td>
                 </tr>
                 <?php
@@ -131,5 +147,43 @@ class Product_listing{
             echo '<p>' . esc_html__( 'No products found.', 'ai-stock-predictor' ) . '</p>';
         }
     }
-}
 
+   
+
+    private function get_recent_product_sales_quantity( $product ) {
+        $product_id = $product->get_id();
+
+        if ( null === $this->recent_product_sales_quantities ) {
+            $this->recent_product_sales_quantities = $this->get_recent_product_sales_quantities();
+        }
+
+        return $this->recent_product_sales_quantities[ $product_id ] ?? 0;
+    }
+
+    private function get_recent_product_sales_quantities() {
+        $sold_quantities = [];
+        $orders = wc_get_orders( [
+            'status'       => [ 'completed', 'processing' ],
+            'limit'        => -1,
+            'date_created' => '>' . ( time() - ( DAY_IN_SECONDS * $this->sales_window_days ) ),
+        ] );
+
+        foreach ( $orders as $order ) {
+            foreach ( $order->get_items() as $item ) {
+                $quantity = (int) $item->get_quantity();
+                $product_id = (int) $item->get_product_id();
+                $variation_id = (int) $item->get_variation_id();
+
+                if ( $product_id > 0 ) {
+                    $sold_quantities[ $product_id ] = ( $sold_quantities[ $product_id ] ?? 0 ) + $quantity;
+                }
+
+                if ( $variation_id > 0 ) {
+                    $sold_quantities[ $variation_id ] = ( $sold_quantities[ $variation_id ] ?? 0 ) + $quantity;
+                }
+            }
+        }
+
+        return $sold_quantities;
+    }
+}
