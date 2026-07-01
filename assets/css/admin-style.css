@@ -1,6 +1,7 @@
 :root{
     --primary-color: #2563EB;
     --secondary-color: #1E40AF;
+    --text-color: #1F2937;
 }
 
 .aisp-woocommerce-pagination ul {
@@ -10,5 +11,21 @@
 }
 
 .aisp-woocommerce-pagination ul li {
-    padding: 0 5px;
+    border: solid 1px lightgray;
+    padding: 8px 16px;
+    margin: 8px;
+    border-radius: 5px;
+}
+
+.aisp-woocommerce-pagination ul li .page-numbers{
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.aisp-woocommerce-pagination ul li:has(.page-numbers.current) {
+    background-color: var(--primary-color);
+}
+
+.aisp-woocommerce-pagination ul li .page-numbers.current{
+    color: white;
 }

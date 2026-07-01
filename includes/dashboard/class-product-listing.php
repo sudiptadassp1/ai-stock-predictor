@@ -121,8 +121,8 @@ class Product_listing{
                     'format'    => '',
                     'current'   => $current_page,
                     'total'     => $total_pages,
-                    'prev_text' => '&larr;',
-                    'next_text' => '&rarr;',
+                    'prev_text' => 'Prev',
+                    'next_text' => 'Next',
                     'type'      => 'list',
                 ] );
                 echo '</div>';
