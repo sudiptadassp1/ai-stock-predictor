@@ -2,7 +2,9 @@
 /**
  * Plugin Name:       AI Stock Predictor
  * Plugin URI:        https://profile-nine-jet.vercel.app/
- * Description:       A starter kit to predict stock trends using machine learning concepts.
+* Description:       Predict possible WooCommerce product stockouts using recent sales trends and current inventory levels.
+ * Requires at least: 6.0
+ * Requires PHP:      7.4
  * Version:           1.0.0
  * Author:            Sudipta Das
  * Author URI:        https://profile-nine-jet.vercel.app/
