@@ -4,8 +4,8 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 class Product_listing{
-    private $sales_window_days = 30;
-    private $lead_time_days = 14;
+    private $sales_window_days = 15;
+    private $lead_time_days = 15;
     private $safety_stock_days = 7;
     private $recent_product_sales_quantities = null;
 
@@ -34,7 +34,7 @@ class Product_listing{
     public function get_woo_product(){
         $current_page = isset( $_GET['paged'] ) ? absint( wp_unslash( $_GET['paged'] ) ) : 1;
         $current_page = max( 1, $current_page );
-        $posts_per_page = 6;
+        $posts_per_page = 20;
 
         // Set up the WooCommerce product query arguments
         $args = [
@@ -150,7 +150,7 @@ class Product_listing{
 
     private function get_stockout_prediction( $product ) {
         $stock_quantity = $product->get_stock_quantity();
-
+        
         if ( null === $stock_quantity ) {
             return [
                 'stockout_date'    => __( 'Not tracked', 'ai-stock-predictor' ),

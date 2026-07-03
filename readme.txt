@@ -1,3 +1,4 @@
+
 === AI Stock Predictor ===
 Contributors: your-wordpress-org-username
 Tags: woocommerce, inventory, stock management, forecasting, analytics
