@@ -1,19 +1,19 @@
-=== AI Stock Predictor ===
-Contributors: your-wordpress-org-username
+=== Smart Stock Predictor ===
+Contributors: sudipta2470
 Tags: woocommerce, inventory, stock management, forecasting, analytics
 Requires at least: 6.0
-Tested up to: 6.6
+Tested up to: 7.0
 Requires PHP: 7.4
 Stable tag: 1.0.0
 Requires Plugins: woocommerce
-License: GPLv2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+License: MIT
+License URI: https://opensource.org/licenses/MIT
 
 Predict possible WooCommerce product stockouts using recent sales trends and current inventory.
 
 == Description ==
 
-AI Stock Predictor helps WooCommerce store owners identify products that may run out of stock soon.
+Smart Stock Predictor helps WooCommerce store owners identify products that may run out of stock soon.
 
 The plugin analyzes recent sales history and current inventory levels to estimate stockout dates, risk levels, and suggested reorder quantities directly from the WordPress admin dashboard.
 
@@ -35,10 +35,10 @@ A Pro version is planned for CodeCanyon and may include advanced forecasting opt
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/ai-stock-predictor/` directory, or install the plugin through the WordPress plugins screen.
+1. Upload the plugin files to the `/wp-content/plugins/smart-stock-predictor/` directory, or install the plugin through the WordPress plugins screen.
 2. Activate the plugin through the Plugins screen in WordPress.
 3. Make sure WooCommerce is installed and active.
-4. Go to AI Predictor in the WordPress admin menu.
+4. Go to Smart Predictor in the WordPress admin menu.
 
 == Frequently Asked Questions ==
 
@@ -46,7 +46,7 @@ A Pro version is planned for CodeCanyon and may include advanced forecasting opt
 
 Yes. WooCommerce must be installed and active.
 
-= Does the plugin use external AI services? =
+= Does the plugin use external services? =
 
 No. The free version calculates predictions locally using WooCommerce order and stock data.
 
@@ -61,8 +61,6 @@ This is planned for the Pro version.
 == Screenshots ==
 
 1. Product inventory dashboard with stockout predictions.
-2. Risk level badges for WooCommerce products.
-3. Suggested reorder quantity column.
 
 == Changelog ==
 

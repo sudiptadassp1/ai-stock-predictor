@@ -3,7 +3,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die; // Absolute security gate
 }
 
-class Product_listing{
+class SSP_Product_Listing{
     private $sales_window_days = 15;
     private $lead_time_days = 15;
     private $safety_stock_days = 7;
@@ -20,9 +20,9 @@ class Product_listing{
 
     public function before_get_woo_product(){
         ?>
-        <div class="aisp-wrap">
+        <div class="ssp-wrap">
             <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-            <p><?php esc_html_e( 'Welcome to the AI Stock Predictor Dashboard.', 'ai-stock-predictor' ); ?></p>
+            <p><?php esc_html_e( 'Welcome to the Smart Stock Predictor Dashboard.', 'smart-stock-predictor' ); ?></p>
         </div>
         <?php
     }
@@ -54,25 +54,25 @@ class Product_listing{
         // Output the products loop
         if ( ! empty( $products ) ) {
             
-            echo '<table class="aisp-wp-list-table widefat fixed striped products-table">';
+            echo '<table class="ssp-wp-list-table widefat fixed striped products-table">';
             echo '  <thead>';
             echo '    <tr>';
-            echo '      <th scope="col" class="aisp-manage-column" style="width:50px;"><strong>' . esc_html__( '#', 'ai-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Image', 'ai-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Product Name', 'ai-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Product SKU', 'ai-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Price', 'ai-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Stock Status', 'ai-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Estimated Stockout Date', 'ai-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Risk Level', 'ai-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="aisp-manage-column"><strong>' . esc_html__( 'Suggested Reorder Quantity', 'ai-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="ssp-manage-column" style="width:50px;"><strong>' . esc_html__( '#', 'smart-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Image', 'smart-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Product Name', 'smart-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Product SKU', 'smart-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Price', 'smart-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Stock Status', 'smart-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Estimated Stockout Date', 'smart-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Risk Level', 'smart-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Suggested Reorder Quantity', 'smart-stock-predictor' ) . '</strong></th>';
             echo '    </tr>';
             echo '  </thead>';
             echo '  <tbody>';
 
             foreach ( $products as $key=>$product ) {
                 $is_in_stock = $product->is_in_stock();
-                $status_label = $is_in_stock ? __( 'In Stock', 'ai-stock-predictor' ) : __( 'Out of Stock', 'ai-stock-predictor' );
+                $status_label = $is_in_stock ? __( 'In Stock', 'smart-stock-predictor' ) : __( 'Out of Stock', 'smart-stock-predictor' );
                 $status_class = $is_in_stock ? 'instock' : 'outofstock';
                 $stock_amount = $product->get_stock_quantity();
                 $product_index = ( ( $current_page - 1 ) * $posts_per_page ) + $key + 1;
@@ -82,44 +82,44 @@ class Product_listing{
                 $sku = $product->get_sku() ? $product->get_sku() : '-';
                 ?>
                 <tr>
-                    <td class="aisp-product-index-column">
+                    <td class="ssp-product-index-column">
                         <strong><?php echo esc_html( $product_index ); ?></strong>
                     </td>
-                    <td class="aisp-product-image-column">
+                    <td class="ssp-product-image-column">
                         <?php 
                         echo wp_kses_post( $product->get_image( 'thumbnail', [ 'style' => 'max-width: 60px; height: auto; display: block;' ] ) ); 
                         ?>
                     </td>
-                    <td class="aisp-product-name-column">
+                    <td class="ssp-product-name-column">
                         <strong><?php echo esc_html( $product->get_name() ); ?></strong>
                     </td>
-                    <td class="aisp-product-sku-column">
+                    <td class="ssp-product-sku-column">
                         <?php echo esc_html( $sku ); ?>
                     </td>
-                    <td class="aisp-product-price-column">
+                    <td class="ssp-product-price-column">
                         <?php echo wp_kses_post( $product->get_price_html() ); ?>
                     </td>
-                    <td class="aisp-product-status-column">
-                        <span class="aisp-status-badge <?php echo esc_attr( $status_class ); ?>">
+                    <td class="ssp-product-status-column">
+                        <span class="ssp-status-badge <?php echo esc_attr( $status_class ); ?>">
                             <?php echo esc_html( $status_label ); ?>
                         </span>
-                        <span class="aisp-stock-amount">
+                        <span class="ssp-stock-amount">
                             <?php 
                             if ( $is_in_stock && $stock_amount !== null ) {
-                                echo esc_html( sprintf( __( ' (%d available)', 'ai-stock-predictor' ), $stock_amount ) );
+                                echo esc_html( sprintf( __( ' (%d available)', 'smart-stock-predictor' ), $stock_amount ) );
                             }
                             ?>
                         </span>
                     </td>
-                    <td class="aisp-product-stockout-column">
+                    <td class="ssp-product-stockout-column">
                         <?php echo esc_html( $prediction['stockout_date'] ); ?>
                     </td>
-                    <td class="aisp-product-risk-column">
-                        <span class="aisp-risk-badge <?php echo esc_attr( $prediction['risk_class'] ); ?>">
+                    <td class="ssp-product-risk-column">
+                        <span class="ssp-risk-badge <?php echo esc_attr( $prediction['risk_class'] ); ?>">
                             <?php echo esc_html( $prediction['risk_level'] ); ?>
                         </span>
                     </td>
-                    <td class="aisp-product-reorder-column">
+                    <td class="ssp-product-reorder-column">
                         <?php echo esc_html( $prediction['reorder_quantity'] ); ?>
                     </td>
                 </tr>
@@ -131,20 +131,20 @@ class Product_listing{
 
             // Output Pagination Links
             if ( $total_pages > 1 ) {
-                echo '<div class="aisp-woocommerce-pagination">';
-                echo paginate_links( [
-                    'base'      => admin_url( 'admin.php?page=ai-stock-predictor&paged=%#%' ),
+                echo '<div class="ssp-woocommerce-pagination">';
+                echo wp_kses_post(paginate_links( [
+                    'base'      => admin_url( 'admin.php?page=smart-stock-predictor&paged=%#%' ),
                     'format'    => '',
                     'current'   => $current_page,
                     'total'     => $total_pages,
                     'prev_text' => 'Prev',
                     'next_text' => 'Next',
                     'type'      => 'list',
-                ] );
+                ] ));
                 echo '</div>';
             }
         } else {
-            echo '<p>' . esc_html__( 'No products found.', 'ai-stock-predictor' ) . '</p>';
+            echo '<p>' . esc_html__( 'No products found.', 'smart-stock-predictor' ) . '</p>';
         }
     }
 
@@ -153,8 +153,8 @@ class Product_listing{
         
         if ( null === $stock_quantity ) {
             return [
-                'stockout_date'    => __( 'Not tracked', 'ai-stock-predictor' ),
-                'risk_level'       => __( 'Unknown', 'ai-stock-predictor' ),
+                'stockout_date'    => __( 'Not tracked', 'smart-stock-predictor' ),
+                'risk_level'       => __( 'Unknown', 'smart-stock-predictor' ),
                 'risk_class'       => 'unknown',
                 'reorder_quantity' => '-',
             ];
@@ -165,8 +165,8 @@ class Product_listing{
 
         if ( $average_daily_sales <= 0 ) {
             return [
-                'stockout_date'    => __( 'No recent sales', 'ai-stock-predictor' ),
-                'risk_level'       => __( 'Low', 'ai-stock-predictor' ),
+                'stockout_date'    => __( 'No recent sales', 'smart-stock-predictor' ),
+                'risk_level'       => __( 'Low', 'smart-stock-predictor' ),
                 'risk_class'       => 'low',
                 'reorder_quantity' => 0,
             ];
@@ -177,8 +177,8 @@ class Product_listing{
 
         if ( $stock_quantity <= 0 ) {
             return [
-                'stockout_date'    => __( 'Today', 'ai-stock-predictor' ),
-                'risk_level'       => __( 'High', 'ai-stock-predictor' ),
+                'stockout_date'    => __( 'Today', 'smart-stock-predictor' ),
+                'risk_level'       => __( 'High', 'smart-stock-predictor' ),
                 'risk_class'       => 'high',
                 'reorder_quantity' => $reorder_quantity,
             ];
@@ -188,13 +188,13 @@ class Product_listing{
         $stockout_timestamp = current_time( 'timestamp' ) + ( (int) ceil( $days_until_stockout ) * DAY_IN_SECONDS );
 
         if ( $days_until_stockout <= $this->lead_time_days ) {
-            $risk_level = __( 'High', 'ai-stock-predictor' );
+            $risk_level = __( 'High', 'smart-stock-predictor' );
             $risk_class = 'high';
         } elseif ( $days_until_stockout <= $coverage_days ) {
-            $risk_level = __( 'Medium', 'ai-stock-predictor' );
+            $risk_level = __( 'Medium', 'smart-stock-predictor' );
             $risk_class = 'medium';
         } else {
-            $risk_level = __( 'Low', 'ai-stock-predictor' );
+            $risk_level = __( 'Low', 'smart-stock-predictor' );
             $risk_class = 'low';
         }
 
