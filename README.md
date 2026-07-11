@@ -1,5 +1,5 @@
-=== Smart Stock Predictor ===
-Contributors: sudipta2470
+=== Stockout Forecast for WooCommerce ===
+Contributors: 
 Tags: woocommerce, inventory, stock management, forecasting, analytics
 Requires at least: 6.0
 Tested up to: 7.0
@@ -13,7 +13,7 @@ Predict possible WooCommerce product stockouts using recent sales trends and cur
 
 == Description ==
 
-Smart Stock Predictor helps WooCommerce store owners identify products that may run out of stock soon.
+Stockout Forecast for WooCommerce helps WooCommerce store owners identify products that may run out of stock soon.
 
 The plugin analyzes recent sales history and current inventory levels to estimate stockout dates, risk levels, and suggested reorder quantities directly from the WordPress admin dashboard.
 
@@ -35,10 +35,10 @@ A Pro version is planned for CodeCanyon and may include advanced forecasting opt
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/smart-stock-predictor/` directory, or install the plugin through the WordPress plugins screen.
+1. Upload the plugin files to the `/wp-content/plugins/stockout-forecast-woocommerce/` directory, or install the plugin through the WordPress plugins screen.
 2. Activate the plugin through the Plugins screen in WordPress.
 3. Make sure WooCommerce is installed and active.
-4. Go to Smart Predictor in the WordPress admin menu.
+4. Go to WooCommerce > Stockout Forecast in the WordPress admin menu.
 
 == Frequently Asked Questions ==
 

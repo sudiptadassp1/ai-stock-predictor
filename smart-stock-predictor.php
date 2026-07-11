@@ -1,17 +1,16 @@
 <?php
 /**
- * Plugin Name:       Smart Stock Predictor
- * Plugin URI:        https://profiles.wordpress.org/sudipta2470/
+ * Plugin Name:       Stockout Forecast for WooCommerce
+ * Plugin URI:        
  * Description:       Predict possible WooCommerce product stockouts using recent sales trends and current inventory levels.
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Version:           1.0.0
- * Author:            Sudipta Das
- * Author URI:        https://profile-nine-jet.vercel.app/
+ * Author:            
+ * Author URI:        
  * License:           MIT
  * License URI:       https://opensource.org/licenses/MIT
- * Text Domain:       smart-stock-predictor
- * Domain Path:       /languages
+ * Text Domain:       stockout-forecast-woocommerce
  * Requires Plugins: woocommerce
  */
 
@@ -19,7 +18,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die; // Absolute security gate
 }
 
-class Smart_Stock_Predictor_Free {
+class Stockout_Forecast_For_WooCommerce {
 
 	public function __construct() {
 		// Hook early into plugins_loaded to check dependencies
@@ -43,7 +42,6 @@ class Smart_Stock_Predictor_Free {
 	}
 
 	public function init_plugin() {
-		load_plugin_textdomain( 'smart-stock-predictor', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 		add_action( 'admin_menu', array( $this, 'create_admin_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
 	}
@@ -59,7 +57,7 @@ class Smart_Stock_Predictor_Free {
 				echo wp_kses_post( 
 					sprintf(
 						/* translators: %s: Search term or link text */
-						__( '<strong>Smart Stock Predictor</strong> requires %s to be installed and active.', 'smart-stock-predictor' ),
+						__( '<strong>Stockout Forecast for WooCommerce</strong> requires %s to be installed and active.', 'stockout-forecast-woocommerce' ),
 						'<a href="' . esc_url( admin_url( 'plugin-install.php?tab=search&s=woocommerce' ) ) . '">WooCommerce</a>'
 					) 
 				); 
@@ -70,19 +68,18 @@ class Smart_Stock_Predictor_Free {
 	}
 
 	public function create_admin_menu() {
-		add_menu_page(
-			__( 'Smart Stock Predictor', 'smart-stock-predictor' ),
-			__( 'Smart Predictor', 'smart-stock-predictor' ),
-			'manage_options',
-			'smart-stock-predictor',
-			array( $this, 'render_admin_dashboard' ),
-			'dashicons-chart-line',
-			6
+		add_submenu_page(
+			'woocommerce',
+		__( 'Stockout Forecast', 'stockout-forecast-woocommerce' ),
+		__( 'Stockout Forecast', 'stockout-forecast-woocommerce' ),
+		'manage_options',
+		'stockout-forecast-woocommerce',
+			array( $this, 'render_admin_dashboard' )
 		);
 	}
 
 	public function enqueue_admin_assets( $hook ) {
-		if ( 'toplevel_page_smart-stock-predictor' !== $hook ) {
+		if ( 'woocommerce_page_stockout-forecast-woocommerce' !== $hook ) {
 			return;
 		}
 		wp_enqueue_style( 'ssp-free-style', plugins_url( 'assets/css/admin-style.css', __FILE__ ), array(), '1.0.0' );
@@ -99,4 +96,4 @@ class Smart_Stock_Predictor_Free {
 	}
 }
 
-new Smart_Stock_Predictor_Free();
+new Stockout_Forecast_For_WooCommerce();

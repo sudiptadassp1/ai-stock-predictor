@@ -22,7 +22,7 @@ class SSP_Product_Listing{
         ?>
         <div class="ssp-wrap">
             <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-            <p><?php esc_html_e( 'Welcome to the Smart Stock Predictor Dashboard.', 'smart-stock-predictor' ); ?></p>
+            <p><?php esc_html_e( 'Welcome to the Stockout Forecast for WooCommerce Dashboard.', 'stockout-forecast-woocommerce' ); ?></p>
         </div>
         <?php
     }
@@ -57,22 +57,22 @@ class SSP_Product_Listing{
             echo '<table class="ssp-wp-list-table widefat fixed striped products-table">';
             echo '  <thead>';
             echo '    <tr>';
-            echo '      <th scope="col" class="ssp-manage-column" style="width:50px;"><strong>' . esc_html__( '#', 'smart-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Image', 'smart-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Product Name', 'smart-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Product SKU', 'smart-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Price', 'smart-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Stock Status', 'smart-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Estimated Stockout Date', 'smart-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Risk Level', 'smart-stock-predictor' ) . '</strong></th>';
-            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Suggested Reorder Quantity', 'smart-stock-predictor' ) . '</strong></th>';
+            echo '      <th scope="col" class="ssp-manage-column" style="width:50px;"><strong>' . esc_html__( '#', 'stockout-forecast-woocommerce' ) . '</strong></th>';
+            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Image', 'stockout-forecast-woocommerce' ) . '</strong></th>';
+            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Product Name', 'stockout-forecast-woocommerce' ) . '</strong></th>';
+            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Product SKU', 'stockout-forecast-woocommerce' ) . '</strong></th>';
+            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Price', 'stockout-forecast-woocommerce' ) . '</strong></th>';
+            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Stock Status', 'stockout-forecast-woocommerce' ) . '</strong></th>';
+            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Estimated Stockout Date', 'stockout-forecast-woocommerce' ) . '</strong></th>';
+            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Risk Level', 'stockout-forecast-woocommerce' ) . '</strong></th>';
+            echo '      <th scope="col" class="ssp-manage-column"><strong>' . esc_html__( 'Suggested Reorder Quantity', 'stockout-forecast-woocommerce' ) . '</strong></th>';
             echo '    </tr>';
             echo '  </thead>';
             echo '  <tbody>';
 
             foreach ( $products as $key=>$product ) {
                 $is_in_stock = $product->is_in_stock();
-                $status_label = $is_in_stock ? __( 'In Stock', 'smart-stock-predictor' ) : __( 'Out of Stock', 'smart-stock-predictor' );
+                $status_label = $is_in_stock ? __( 'In Stock', 'stockout-forecast-woocommerce' ) : __( 'Out of Stock', 'stockout-forecast-woocommerce' );
                 $status_class = $is_in_stock ? 'instock' : 'outofstock';
                 $stock_amount = $product->get_stock_quantity();
                 $product_index = ( ( $current_page - 1 ) * $posts_per_page ) + $key + 1;
@@ -106,7 +106,7 @@ class SSP_Product_Listing{
                         <span class="ssp-stock-amount">
                             <?php 
                             if ( $is_in_stock && $stock_amount !== null ) {
-                                echo esc_html( sprintf( __( ' (%d available)', 'smart-stock-predictor' ), $stock_amount ) );
+                                echo esc_html( sprintf( __( ' (%d available)', 'stockout-forecast-woocommerce' ), $stock_amount ) );
                             }
                             ?>
                         </span>
@@ -133,7 +133,7 @@ class SSP_Product_Listing{
             if ( $total_pages > 1 ) {
                 echo '<div class="ssp-woocommerce-pagination">';
                 echo wp_kses_post(paginate_links( [
-                    'base'      => admin_url( 'admin.php?page=smart-stock-predictor&paged=%#%' ),
+                    'base'      => admin_url( 'admin.php?page=stockout-forecast-woocommerce&paged=%#%' ),
                     'format'    => '',
                     'current'   => $current_page,
                     'total'     => $total_pages,
@@ -144,7 +144,7 @@ class SSP_Product_Listing{
                 echo '</div>';
             }
         } else {
-            echo '<p>' . esc_html__( 'No products found.', 'smart-stock-predictor' ) . '</p>';
+            echo '<p>' . esc_html__( 'No products found.', 'stockout-forecast-woocommerce' ) . '</p>';
         }
     }
 
@@ -153,8 +153,8 @@ class SSP_Product_Listing{
         
         if ( null === $stock_quantity ) {
             return [
-                'stockout_date'    => __( 'Not tracked', 'smart-stock-predictor' ),
-                'risk_level'       => __( 'Unknown', 'smart-stock-predictor' ),
+                'stockout_date'    => __( 'Not tracked', 'stockout-forecast-woocommerce' ),
+                'risk_level'       => __( 'Unknown', 'stockout-forecast-woocommerce' ),
                 'risk_class'       => 'unknown',
                 'reorder_quantity' => '-',
             ];
@@ -165,8 +165,8 @@ class SSP_Product_Listing{
 
         if ( $average_daily_sales <= 0 ) {
             return [
-                'stockout_date'    => __( 'No recent sales', 'smart-stock-predictor' ),
-                'risk_level'       => __( 'Low', 'smart-stock-predictor' ),
+                'stockout_date'    => __( 'No recent sales', 'stockout-forecast-woocommerce' ),
+                'risk_level'       => __( 'Low', 'stockout-forecast-woocommerce' ),
                 'risk_class'       => 'low',
                 'reorder_quantity' => 0,
             ];
@@ -177,8 +177,8 @@ class SSP_Product_Listing{
 
         if ( $stock_quantity <= 0 ) {
             return [
-                'stockout_date'    => __( 'Today', 'smart-stock-predictor' ),
-                'risk_level'       => __( 'High', 'smart-stock-predictor' ),
+                'stockout_date'    => __( 'Today', 'stockout-forecast-woocommerce' ),
+                'risk_level'       => __( 'High', 'stockout-forecast-woocommerce' ),
                 'risk_class'       => 'high',
                 'reorder_quantity' => $reorder_quantity,
             ];
@@ -188,13 +188,13 @@ class SSP_Product_Listing{
         $stockout_timestamp = current_time( 'timestamp' ) + ( (int) ceil( $days_until_stockout ) * DAY_IN_SECONDS );
 
         if ( $days_until_stockout <= $this->lead_time_days ) {
-            $risk_level = __( 'High', 'smart-stock-predictor' );
+            $risk_level = __( 'High', 'stockout-forecast-woocommerce' );
             $risk_class = 'high';
         } elseif ( $days_until_stockout <= $coverage_days ) {
-            $risk_level = __( 'Medium', 'smart-stock-predictor' );
+            $risk_level = __( 'Medium', 'stockout-forecast-woocommerce' );
             $risk_class = 'medium';
         } else {
-            $risk_level = __( 'Low', 'smart-stock-predictor' );
+            $risk_level = __( 'Low', 'stockout-forecast-woocommerce' );
             $risk_class = 'low';
         }
 
