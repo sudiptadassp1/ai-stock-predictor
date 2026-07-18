@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Stockout Forecast for WooCommerce
+ * Plugin Name:       Aura Stock Forecast for WooCommerce
  * Plugin URI:        
  * Description:       Predict possible WooCommerce product stockouts using recent sales trends and current inventory levels.
  * Requires at least: 6.0
@@ -10,7 +10,7 @@
  * Author URI:        
  * License:           MIT
  * License URI:       https://opensource.org/licenses/MIT
- * Text Domain:       stockout-forecast-woocommerce
+ * Text Domain:       aura-stock-forecast-for-woocommerce
  * Requires Plugins: woocommerce
  */
 
@@ -57,7 +57,7 @@ class Stockout_Forecast_For_WooCommerce {
 				echo wp_kses_post( 
 					sprintf(
 						/* translators: %s: Search term or link text */
-						__( '<strong>Stockout Forecast for WooCommerce</strong> requires %s to be installed and active.', 'stockout-forecast-woocommerce' ),
+						__( '<strong>Aura Stock Forecast for WooCommerce</strong> requires %s to be installed and active.', 'aura-stock-forecast-for-woocommerce' ),
 						'<a href="' . esc_url( admin_url( 'plugin-install.php?tab=search&s=woocommerce' ) ) . '">WooCommerce</a>'
 					) 
 				); 
@@ -70,16 +70,16 @@ class Stockout_Forecast_For_WooCommerce {
 	public function create_admin_menu() {
 		add_submenu_page(
 			'woocommerce',
-		__( 'Stockout Forecast', 'stockout-forecast-woocommerce' ),
-		__( 'Stockout Forecast', 'stockout-forecast-woocommerce' ),
+		__( 'Aura Stock Forecast', 'aura-stock-forecast-for-woocommerce' ),
+		__( 'Aura Stock Forecast', 'aura-stock-forecast-for-woocommerce' ),
 		'manage_options',
-		'stockout-forecast-woocommerce',
+		'aura-stock-forecast-for-woocommerce',
 			array( $this, 'render_admin_dashboard' )
 		);
 	}
 
 	public function enqueue_admin_assets( $hook ) {
-		if ( 'woocommerce_page_stockout-forecast-woocommerce' !== $hook ) {
+		if ( 'woocommerce_page_aura-stock-forecast-for-woocommerce' !== $hook ) {
 			return;
 		}
 		wp_enqueue_style( 'ssp-free-style', plugins_url( 'assets/css/admin-style.css', __FILE__ ), array(), '1.0.0' );
